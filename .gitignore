@@ -27,6 +27,16 @@ data/output/*
 logs/*
 !logs/.gitkeep
 
+# nanobot runtime workspace state (auto-generated, not project code)
+.nanobot/
+AGENTS.md
+HEARTBEAT.md
+SOUL.md
+USER.md
+cron/
+memory/
+prompts/
+
 # OS / editor
 .DS_Store
 Thumbs.db
