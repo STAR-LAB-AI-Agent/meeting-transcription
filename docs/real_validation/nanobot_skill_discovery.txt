@@ -1,0 +1,10 @@
+nanobot skill discovery report
+generated: 2026-09-22
+python: 3.12.10
+nanobot: 0.3.5
+workspace: E:\tb\20260921\AI_Meeting_ASR_Project
+total skills discovered: 12
+meeting-asr discovered: 1
+  name=meeting-asr source=workspace path=E:\tb\20260921\AI_Meeting_ASR_Project\skills\meeting-asr\SKILL.md
+
+all discovered skill names: clawhub, cron, github, image-generation, meeting-asr, memory, my, skill-creator, summarize, tmux, update-setup, weather
