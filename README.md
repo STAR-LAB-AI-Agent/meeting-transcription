@@ -192,10 +192,11 @@ scripts\run_tests.bat
 
 ## 16. 已知问题
 
-- 真实 FunASR 推理链路已用 3 段公开中文/英文语音验证通过
-  （`REAL_ASR_TEST = "PASS"`，见 `PROJECT_STATUS.md` 与
-  `docs/real_validation/`）；但“多人会议场景”尚未验证，需一段真实/模拟
-  会议录音放入 `data/input/` 后运行转写。
+- 真实 FunASR 推理链路已用 3 段公开语音验证通过，并额外生成了 67.5 秒
+  “合成模拟会议 Demo”（TTS 合成，非真实会议）用于完整演示；详见
+  `PROJECT_STATUS.md` 与 `docs/real_validation/`。
+- nanobot 已独立安装并完成 Skill 发现（`skills/meeting-asr/SKILL.md`），
+  但 Runtime 实际调用需先配置 provider/model（见 `docs/nanobot接入.md`）。
 - 未安装 ffmpeg 时，非 wav 格式无法转写（wav 不受影响）。
 - 规则式摘要为抽取式，语义理解有限；配置外部 LLM 可进一步提升。
 

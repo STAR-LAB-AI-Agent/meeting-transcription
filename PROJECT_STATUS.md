@@ -1,65 +1,70 @@
 # 项目状态
 
-更新时间：2026-09-21
+更新时间：2026-09-22
 
 ## 状态总览
 
 | 项目 | 状态 |
 |------|------|
 | 自动单元测试 | PASS（30 passed） |
-| 真实 FunASR 推理链路 | PASS（3 段公开语音） |
-| 真实会议场景 Demo | 待验证（需模拟多人会议录音） |
-| nanobot 实际加载 | 未执行（本机未安装） |
-| GitHub 发布 | 未执行（本机未安装 gh） |
+| 真实 FunASR 推理链路（公开短音频） | PASS（3/3） |
+| 合成模拟会议 Demo（60~90s） | PASS（67.5s） |
+| 合成会议 CER（演示级） | 4.91%（13/265 字符） |
+| nanobot 安装 | PASS（v0.3.5，独立 venv） |
+| nanobot Skill 发现 | PASS（meeting-asr 被加载） |
+| nanobot Runtime 实际调用 | 待验证（缺少模型配置） |
+| GUI | 启动通过，需人工点击演示 |
+| GitHub CLI | 已安装（2.101.0），未登录 |
+| GitHub 发布 | 未执行（需登录 + 确认） |
 
 ## 环境
 
 - Python 3.12.10
-- funasr 1.4.16
-- torch 2.14.0（CPU）
-- torchaudio 2.11.0
-- modelscope 1.40.1
+- funasr 1.4.16 / torch 2.14.0(CPU) / torchaudio 2.11.0 / modelscope 1.40.1
 - 模型：paraformer-zh（ASR）+ fsmn-vad（VAD）+ ct-punc（标点）
+- 转写支持句级时间戳（`generate(..., sentence_timestamp=True)`）
+- TTS 工具：edge-tts 7.2.8 + miniaudio（独立 venv `E:\tb\20260921\tts_tool\.venv`）
+- nanobot 0.3.5（独立 venv `E:\tb\20260921\nanobot_runtime\.venv`）
 
-## 真实 FunASR 测试
+## 三类语音验证（明确区分，未互相冒充）
 
-使用 3 段公开官方示例语音完成真实推理（详情见
-`docs/real_validation/audio_sources.md`）：
+### 1. FunASR 官方公开短音频（真实推理）
 
-| 文件（basename） | 时长 | 段数 | 识别文本（节选） | 结果 |
-|------------------|------|------|------------------|------|
-| sample_01_clear_chinese.wav | 5.55s | 1 | 欢迎大家来体验达摩院推出的语音识别模型。 | PASS |
-| sample_02_long_chinese.wav | 5.0s | 1 | 我认为跑步最重要的就是给我带来了身体健康。 | PASS |
-| sample_03_challenging.wav | 2.23s | 1 | He tried to think how it could be.（英文） | PASS |
+3/3 decode PASS，详情见 `docs/real_validation/audio_sources.md`：
 
-- 模型下载：首次运行自动下载并缓存到 `~/.cache/modelscope`。
-- 转写耗时：约 47 秒/段（含模型从缓存加载；实际推理 RTF ≈ 0.12）。
-- 搜索耗时：< 1 毫秒。
-- 摘要耗时：约 350 毫秒（含 jieba 首次加载）。
-- 输出目录：`data/output/`（每个音频对应 `.json` 与 `.txt`）。
+| 文件 | 时长 | 识别文本 |
+|------|------|----------|
+| sample_01_clear_chinese.wav | 5.55s | 欢迎大家来体验达摩院推出的语音识别模型。 |
+| sample_02_long_chinese.wav | 5.0s | 我认为跑步最重要的就是给我带来了身体健康。 |
+| sample_03_challenging.wav | 2.23s | He tried to think how it could be.（英文） |
 
-## 真实检索 / 定位 / 摘要验证（主素材 sample_01）
+### 2. 合成模拟会议 Demo（60~90s，非真实会议）
 
-- 关键词“语音识别”：命中 1 次，时间戳 880–5195 ms，返回对应句子。
-- 关键词“模型”：命中 1 次。
-- 关键词“量子火箭测试”（不存在）：`hit_count: 0`，友好返回空结果。
-- 时间定位“00:02”：定位到该片段，`out_of_range: false`。
-- 摘要：输出 topic/summary/key_points；decisions 与 action_items 均为空，
-  并明确标注“未识别到明确决策事项/待办”，未编造内容。
+- 音频：`data/input/synthetic_meeting_demo.wav`（67.5s，16kHz mono PCM16）
+- 由 TTS 合成，明确标记为“合成模拟会议音频”，非真实会议录音。
+- 生成脚本：`scripts/generate_synthetic_meeting.py`
+- 人工原文：`examples/synthetic_meeting_ground_truth.txt`
+- 转写输出：`data/output/synthetic_meeting_demo.json` / `.txt`（27 段，时间戳单调）
+- 检索/定位/摘要结果：`docs/real_validation/synth_*.json`
+- 演示级 CER：4.91%（合成会议识别结果，非模型 benchmark）
 
-## Token 优化说明
+### 3. nanobot Runtime（待模型配置后验证）
 
-真实短音频（单句、单 segment）无冗余文本，压缩比约为 1（因时间戳前缀甚至
-略增），这是真实结果。有意义的“大会议文本检索结果压缩”演示使用多段示例
-转写（14 段）：关键词“深度学习”估算 Token 360 → 125，减少 65.28%（真实
-计算，见 `docs/测试报告.md`）。
+- 安装：nanobot 0.3.5（独立 venv）
+- Skill：`skills/meeting-asr/SKILL.md`（canonical workspace skill）
+- 发现：`SkillsLoader` 已识别 `meeting-asr`（证据见
+  `docs/real_validation/nanobot_skill_discovery.txt`）
+- 实际调用 Script/CLI：待配置 provider/model 后执行
 
-## WER / CER
+## WER / CER 说明
 
-未评估。下载素材没有人工逐字标注的 ground truth，因此不伪造 WER/CER。
+- 公开短音频：未评估（无人工逐字 ground truth）。
+- 合成会议：CER=4.91%，仅作为“合成会议 Demo 识别结果”演示，不是模型性能
+  benchmark。
 
 ## 待完成
 
-1. 会议场景 Demo：需一段真实/模拟多人会议录音（放入 `data/input/`）。
-2. nanobot 实际加载：需用户安装 nanobot 后按 `docs/nanobot接入.md` 操作。
-3. GitHub 发布：需用户安装并登录 gh CLI 后执行发布命令。
+1. nanobot 模型配置（需用户提供任一 provider 的 API Key）。
+2. nanobot Runtime 实际调用 4 条自然语言（转写/搜索/定位/摘要）。
+3. GUI 人工点击演示（上传 synthetic_meeting_demo.wav → 转写 → 搜索 → 定位 → 摘要）。
+4. GitHub 登录并发布（gh 已安装，未登录）。
