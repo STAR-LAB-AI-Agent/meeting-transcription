@@ -81,7 +81,7 @@ def extractive_summary(segments: list[dict], top_n: int = 5) -> dict:
     action_items = [s for s in sentences if any(k in s for k in _ACTION_KEYWORDS)]
 
     summary_body = " ".join(key_points) if key_points else full[:200]
-    return {
+    result = {
         "topic": topic,
         "summary": summary_body,
         "key_points": _dedup(key_points),
@@ -89,6 +89,13 @@ def extractive_summary(segments: list[dict], top_n: int = 5) -> dict:
         "action_items": _dedup(action_items),
         "method": "extractive_fallback",
     }
+    notes = []
+    if not result["decisions"]:
+        notes.append("未识别到明确决策事项")
+    if not result["action_items"]:
+        notes.append("未识别到明确待办/行动项")
+    result["notes"] = notes
+    return result
 
 
 def _llm_summary(

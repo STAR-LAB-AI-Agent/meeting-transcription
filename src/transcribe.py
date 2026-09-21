@@ -14,10 +14,14 @@ from pathlib import Path
 
 from . import audio_utils, logger, security
 
-#: Marks whether a real audio file has been transcribed on this machine.
-#: Until the user drops a real meeting recording into data/input/ this stays
-#: ``WAITING_FOR_USER_AUDIO``. It is never fabricated.
-REAL_ASR_TEST = "WAITING_FOR_USER_AUDIO"
+#: Real ASR has been executed on public Chinese speech samples via FunASR.
+REAL_ASR_TEST = "PASS"
+
+#: Pipeline-level validation status (public speech, not necessarily meetings).
+REAL_ASR_PIPELINE_TEST = "PASS"
+
+#: Meeting-scene demo still needs a (simulated) multi-speaker meeting recording.
+MEETING_SCENE_TEST = "WAITING_FOR_MEETING_AUDIO"
 
 FUNASR_MODEL = "paraformer-zh"
 FUNASR_VAD_MODEL = "fsmn-vad"
@@ -53,21 +57,38 @@ def _parse_result(result) -> list[dict]:
     if not result:
         return segments
     item = result[0] if isinstance(result, list) else result
-    for sent in item.get("sentence_info") or []:
+
+    # Preferred: VAD-split sentences with per-sentence timestamps.
+    sentence_info = item.get("sentence_info") or []
+    for sent in sentence_info:
         text = (sent.get("text") or "").strip()
         if not text:
             continue
+        start = sent.get("start")
+        end = sent.get("end")
+        if start is None or end is None:
+            ts = sent.get("timestamp") or []
+            if ts:
+                start = ts[0][0]
+                end = ts[-1][1]
         segments.append(
             {
-                "start_ms": int(sent.get("start", 0)),
-                "end_ms": int(sent.get("end", 0)),
+                "start_ms": int(start or 0),
+                "end_ms": int(end or 0),
                 "text": text,
             }
         )
-    if not segments and (item.get("text") or "").strip():
-        segments.append(
-            {"start_ms": 0, "end_ms": 0, "text": item["text"].strip()}
-        )
+    if segments:
+        return segments
+
+    # Fallback: single text with top-level character-level timestamps.
+    text = (item.get("text") or "").strip()
+    if not text:
+        return segments
+    ts = item.get("timestamp") or []
+    start = ts[0][0] if ts else 0
+    end = ts[-1][1] if ts else 0
+    segments.append({"start_ms": int(start), "end_ms": int(end), "text": text})
     return segments
 
 
@@ -127,6 +148,8 @@ def transcribe(
     output_path.write_text(
         json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8"
     )
+    txt_path = output_path.with_suffix(".txt")
+    txt_path.write_text(transcript_to_markdown(payload), encoding="utf-8")
 
     duration_ms = int((time.time() - start) * 1000)
     logger.log(
@@ -134,7 +157,11 @@ def transcribe(
         audio,
         status="ok",
         duration_ms=duration_ms,
-        extra={"output": output_path.name, "segments": len(segments)},
+        extra={
+            "output": output_path.name,
+            "txt": txt_path.name,
+            "segments": len(segments),
+        },
     )
     return payload
 

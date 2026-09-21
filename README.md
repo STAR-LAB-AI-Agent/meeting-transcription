@@ -192,9 +192,10 @@ scripts\run_tests.bat
 
 ## 16. 已知问题
 
-- 本机尚未放置真实会议音频，真实 ASR 尚未执行（`src/transcribe.py` 中
-  `REAL_ASR_TEST = "WAITING_FOR_USER_AUDIO"`）。请将 wav/mp3/m4a 放入
-  `data/input/` 后运行转写。
+- 真实 FunASR 推理链路已用 3 段公开中文/英文语音验证通过
+  （`REAL_ASR_TEST = "PASS"`，见 `PROJECT_STATUS.md` 与
+  `docs/real_validation/`）；但“多人会议场景”尚未验证，需一段真实/模拟
+  会议录音放入 `data/input/` 后运行转写。
 - 未安装 ffmpeg 时，非 wav 格式无法转写（wav 不受影响）。
 - 规则式摘要为抽取式，语义理解有限；配置外部 LLM 可进一步提升。
 
