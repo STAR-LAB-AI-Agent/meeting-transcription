@@ -1,0 +1,18 @@
+{
+  "keyword": "智能体",
+  "hit_count": 1,
+  "hits": [
+    {
+      "keyword": "智能体",
+      "start_ms": 970,
+      "end_ms": 3690,
+      "sentence": "今天我们讨论智能体开发课程项目，",
+      "context_before": [
+        "大家好，"
+      ],
+      "context_after": [
+        "主要确认会议语音转写模块的进展。"
+      ]
+    }
+  ]
+}

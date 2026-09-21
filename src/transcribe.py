@@ -134,7 +134,9 @@ def transcribe(
         )
 
     model = _get_model()
-    result = model.generate(input=str(audio), batch_size_s=300)
+    result = model.generate(
+        input=str(audio), batch_size_s=300, sentence_timestamp=True
+    )
     segments = _parse_result(result)
 
     payload = {

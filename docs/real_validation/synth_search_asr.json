@@ -1,0 +1,18 @@
+{
+  "keyword": "语音识别",
+  "hit_count": 1,
+  "hits": [
+    {
+      "keyword": "语音识别",
+      "start_ms": 8970,
+      "end_ms": 12690,
+      "sentence": "目前我们已经使用翻 AS 二完成语音识别，",
+      "context_before": [
+        "好的，"
+      ],
+      "context_after": [
+        "整体效果不错，"
+      ]
+    }
+  ]
+}

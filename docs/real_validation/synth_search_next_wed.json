@@ -1,0 +1,18 @@
+{
+  "keyword": "下周三",
+  "hit_count": 1,
+  "hits": [
+    {
+      "keyword": "下周三",
+      "start_ms": 32390,
+      "end_ms": 35570,
+      "sentence": "数据集整理计划在下周三之前完成，",
+      "context_before": [
+        "那数据集这块的进展怎么样呢？"
+      ],
+      "context_after": [
+        "实验工作也在按计划推进。"
+      ]
+    }
+  ]
+}

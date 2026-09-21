@@ -1,0 +1,68 @@
+{
+  "00:10": {
+    "target_ms": 10000,
+    "target_time": "00:00:10.00",
+    "out_of_range": false,
+    "segments": [
+      {
+        "start_ms": 8250,
+        "end_ms": 8730,
+        "text": "好的，"
+      },
+      {
+        "start_ms": 8970,
+        "end_ms": 12690,
+        "text": "目前我们已经使用翻 AS 二完成语音识别，"
+      },
+      {
+        "start_ms": 13030,
+        "end_ms": 14130,
+        "text": "整体效果不错，"
+      }
+    ]
+  },
+  "00:30": {
+    "target_ms": 30000,
+    "target_time": "00:00:30.00",
+    "out_of_range": false,
+    "segments": [
+      {
+        "start_ms": 25930,
+        "end_ms": 27490,
+        "text": "暂时没有超支的风险。"
+      },
+      {
+        "start_ms": 28530,
+        "end_ms": 31010,
+        "text": "那数据集这块的进展怎么样呢？"
+      },
+      {
+        "start_ms": 32390,
+        "end_ms": 35570,
+        "text": "数据集整理计划在下周三之前完成，"
+      }
+    ]
+  },
+  "00:50": {
+    "target_ms": 50000,
+    "target_time": "00:00:50.00",
+    "out_of_range": false,
+    "segments": [
+      {
+        "start_ms": 46330,
+        "end_ms": 48150,
+        "text": "测试用例已经准备好了，"
+      },
+      {
+        "start_ms": 48450,
+        "end_ms": 52170,
+        "text": "我们会用真实音频来验证转写和检索的结果。"
+      },
+      {
+        "start_ms": 53270,
+        "end_ms": 55350,
+        "text": "测验部分大家要按时完成，"
+      }
+    ]
+  }
+}

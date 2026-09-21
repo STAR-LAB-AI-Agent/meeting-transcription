@@ -18,6 +18,8 @@ model_cache/
 # Real audio and generated transcripts (keep examples/ demo data)
 data/input/*
 !data/input/.gitkeep
+# Allow the small self-generated synthetic meeting demo audio
+!data/input/synthetic_meeting_demo.wav
 data/output/*
 !data/output/.gitkeep
 

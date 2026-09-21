@@ -1,0 +1,30 @@
+{
+  "keyword": "预算",
+  "hit_count": 2,
+  "hits": [
+    {
+      "keyword": "预算",
+      "start_ms": 18610,
+      "end_ms": 21370,
+      "sentence": "接下来请确认一下项目预算的情况。",
+      "context_before": [
+        "很好，"
+      ],
+      "context_after": [
+        "测目预算目前控制在三千元以内，"
+      ]
+    },
+    {
+      "keyword": "预算",
+      "start_ms": 22710,
+      "end_ms": 25570,
+      "sentence": "测目预算目前控制在三千元以内，",
+      "context_before": [
+        "接下来请确认一下项目预算的情况。"
+      ],
+      "context_after": [
+        "暂时没有超支的风险。"
+      ]
+    }
+  ]
+}
