@@ -68,9 +68,6 @@ def route(query: str) -> dict:
     q = (query or "").strip()
     low = q.lower()
 
-    if any(k in low for k in _TRANSCRIBE_KEYWORDS):
-        return {"intent": "transcribe", "query": q}
-
     if any(k in low for k in _SEARCH_KEYWORDS):
         return {
             "intent": "search",
@@ -83,5 +80,8 @@ def route(query: str) -> dict:
 
     if any(k in low for k in _SUMMARY_KEYWORDS):
         return {"intent": "summarize", "query": q}
+
+    if any(k in low for k in _TRANSCRIBE_KEYWORDS):
+        return {"intent": "transcribe", "query": q}
 
     return {"intent": "unknown", "query": q}

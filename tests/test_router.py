@@ -18,6 +18,13 @@ def test_route_search_extract_keyword():
     assert r["keyword"] == "深度学习"
 
 
+def test_route_search_with_asr_term():
+    # "识别" is a transcribe keyword; "搜索" must take priority.
+    r = agent_router.route("搜索语音识别")
+    assert r["intent"] == "search"
+    assert r["keyword"] == "语音识别"
+
+
 def test_route_locate():
     r = agent_router.route("01:30 附近说了什么")
     assert r["intent"] == "locate"
