@@ -1,0 +1,14 @@
+# Core runtime (FunASR stack). FunASR pulls torch/torchaudio/modelscope.
+funasr>=1.4.16
+
+# Test framework
+pytest>=8.0
+
+# Chinese word segmentation for the extractive summary fallback
+jieba>=0.42
+
+# Demo GUI
+streamlit>=1.36
+
+# Optional: local LLM-free summary works out of the box; for an external LLM
+# summary set MEETING_ASR_LLM_API_KEY / MEETING_ASR_LLM_BASE_URL in .env.
