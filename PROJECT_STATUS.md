@@ -12,7 +12,7 @@
 | 合成会议 CER（演示级） | 4.91%（13/265 字符） |
 | nanobot 安装 | PASS（v0.3.5，独立 venv） |
 | nanobot Skill 发现 | PASS（meeting-asr 被加载） |
-| nanobot Runtime 实际调用 | 待验证（缺少模型配置） |
+| nanobot Runtime 实际调用 | PASS（transcribe/search/locate/summarize 均真实调用 CLI） |
 | GUI | 启动通过，需人工点击演示 |
 | GitHub CLI | 已安装（2.101.0），未登录 |
 | GitHub 发布 | 未执行（需登录 + 确认） |
@@ -48,13 +48,21 @@
 - 检索/定位/摘要结果：`docs/real_validation/synth_*.json`
 - 演示级 CER：4.91%（合成会议识别结果，非模型 benchmark）
 
-### 3. nanobot Runtime（待模型配置后验证）
+### 3. nanobot Runtime（已真实验证）
 
 - 安装：nanobot 0.3.5（独立 venv）
 - Skill：`skills/meeting-asr/SKILL.md`（canonical workspace skill）
 - 发现：`SkillsLoader` 已识别 `meeting-asr`（证据见
   `docs/real_validation/nanobot_skill_discovery.txt`）
-- 实际调用 Script/CLI：待配置 provider/model 后执行
+- 模型：deepseek-flash（provider/model 已配置，`nanobot status` 显示 ready）
+- 实际调用 Script/CLI：**PASS**。四项均通过 `meeting-asr` Skill 触发真实
+  `src/meeting_tool.py`（transcribe/search/locate/summarize），证据见
+  `docs/real_validation/nanobot_runtime_*.txt`
+
+> 说明：nanobot Agent 为完成 transcribe，自动在系统 Python 中安装了
+> funasr/modelscope（torch 2.2.2+cu118），因此本次转写元数据记录为
+> torch 2.2.2+cu118；项目 `.venv` 内仍为 torch 2.14.0(CPU)。两者均为真实
+> 推理，仅运行环境不同。
 
 ## WER / CER 说明
 
@@ -64,7 +72,5 @@
 
 ## 待完成
 
-1. nanobot 模型配置（需用户提供任一 provider 的 API Key）。
-2. nanobot Runtime 实际调用 4 条自然语言（转写/搜索/定位/摘要）。
-3. GUI 人工点击演示（上传 synthetic_meeting_demo.wav → 转写 → 搜索 → 定位 → 摘要）。
-4. GitHub 登录并发布（gh 已安装，未登录）。
+1. GUI 人工点击演示（上传 synthetic_meeting_demo.wav → 转写 → 搜索 → 定位 → 摘要）。
+2. GitHub 登录并发布（gh 已安装，未登录）。

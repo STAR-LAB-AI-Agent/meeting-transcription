@@ -51,9 +51,19 @@ E:\tb\20260921\nanobot_runtime\.venv\Scripts\nanobot.exe onboard --wizard `
 > 不要把 API Key 写入本项目、README、日志或 Git；Key 只放在环境变量或
 > 个人配置文件中。
 
-## 4. Runtime 调用验证（待模型配置后执行）
+## 4. Runtime 调用验证（已通过）
 
-使用非交互式命令，让 Agent 自然语言 → 识别 Skill → 调用 Script/CLI：
+已用 provider=deepseek-flash 实际验证：Agent 自然语言 → 识别 `meeting-asr` Skill
+→ 按 SKILL.md → 调用真实 `src/meeting_tool.py` → 返回脚本结果。四项均 PASS：
+
+- transcribe：`meeting_tool.py transcribe --audio data/input/synthetic_meeting_demo.wav --overwrite`
+- search：`meeting_tool.py search --keyword 预算`
+- locate：`meeting_tool.py locate --time 00:30`
+- summarize：`meeting_tool.py summarize`
+
+证据（含 `Tool call: exec(...)` 日志）：`docs/real_validation/nanobot_runtime_*.txt`。
+
+非交互式命令示例（供复现）：
 
 ```powershell
 E:\tb\20260921\nanobot_runtime\.venv\Scripts\nanobot.exe agent `
@@ -63,11 +73,14 @@ E:\tb\20260921\nanobot_runtime\.venv\Scripts\nanobot.exe agent `
 ```
 
 其余三条：搜索“预算”、查询“00:30 附近说了什么”、生成会议摘要。
-验证目标：确认 nanobot 触发 `meeting-asr` Skill → 执行 `src/meeting_tool.py` →
-返回真实脚本结果（退出码 0），而非 Agent 凭提示词编造答案。
+
+> 注意：nanobot Agent 的 shell 默认使用系统 `python`；为完成 transcribe，Agent
+> 自动在系统 Python 中安装了 funasr/modelscope（torch 2.2.2+cu118）。SKILL.md
+> 已注明使用项目 `.venv` 中的 Python 可避免该副作用。
 
 ## 5. 安全边界
 
 - Skill 不包含、不索取任何 API Key / 密码 / Token。
 - 通过 `src/security.py` 限制文件读写白名单与目录穿越。
 - nanobot 独立 venv 与本项目 FunASR venv 隔离。
+- 不要在 SKILL.md、README、docs 或 Git 中记录任何 API Key。

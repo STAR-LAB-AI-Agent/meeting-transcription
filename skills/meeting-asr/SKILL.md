@@ -33,11 +33,19 @@ description: >-
 | keyword | string | 检索时 | 关键词 |
 | time | string | 定位时 | MM:SS / HH:MM:SS / 秒 |
 
+## 运行环境（重要）
+
+项目依赖（FunASR、jieba 等）安装在项目根目录的虚拟环境 `.venv` 中，不要使用
+系统 `python`。请用项目 `.venv` 中的 Python 运行命令：
+
+- Windows：`.venv\Scripts\python.exe`
+- Linux：`.venv/bin/python`
+
 ## Script/CLI 调用命令
 
 ```bash
 # 转写
-python src/meeting_tool.py transcribe --audio data/input/synthetic_meeting_demo.wav
+python src/meeting_tool.py transcribe --audio data/input/synthetic_meeting_demo.wav --overwrite
 
 # 搜索关键词
 python src/meeting_tool.py search --transcript data/output/synthetic_meeting_demo.json --keyword "预算"
@@ -48,6 +56,9 @@ python src/meeting_tool.py locate --transcript data/output/synthetic_meeting_dem
 # 生成摘要
 python src/meeting_tool.py summarize --transcript data/output/synthetic_meeting_demo.json
 ```
+
+（上述 `python` 均指项目 `.venv` 中的 Python，例如 Windows 下为
+`.venv\Scripts\python.exe`。）
 
 成功时退出码为 0 并输出 JSON；失败时退出码非 0，输出含 `error` 字段的 JSON。
 
