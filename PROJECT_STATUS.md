@@ -14,8 +14,8 @@
 | nanobot Skill 发现 | PASS（meeting-asr 被加载） |
 | nanobot Runtime 实际调用 | PASS（transcribe/search/locate/summarize 均真实调用 CLI） |
 | GUI | PASS（人工最终验收通过） |
-| GitHub CLI | 已安装（2.101.0）并登录（l18844179393-del） |
-| GitHub 发布 | 阻塞（无 STAR-LAB-AI-Agent 组织仓库创建权限） |
+| GitHub CLI | 已安装（2.101.0）并登录（Simon-91-lxs） |
+| GitHub 发布 | PASS（https://github.com/STAR-LAB-AI-Agent/meeting-transcription，public，main） |
 | Demo 视频 | PASS（docs/demo/AI_Meeting_ASR_Demo.mp4，55.6s，1280×720 H.264） |
 
 ## 环境
@@ -71,6 +71,16 @@
 - 合成会议：CER=4.91%，仅作为“合成会议 Demo 识别结果”演示，不是模型性能
   benchmark。
 
+## GitHub 发布
+
+- 组织：STAR-LAB-AI-Agent
+- 仓库：meeting-transcription
+- URL：https://github.com/STAR-LAB-AI-Agent/meeting-transcription
+- 账号：Simon-91-lxs（外部合作者，viewerPermission = WRITE）
+- 可见性：public；默认分支：main
+- 提交数：19（作者为匿名 "Student"）
+- 发布后数据（真实查询）：Star 0 / Fork 0 / Watch 0 / PR 0
+
 ## 待完成
 
-1. GitHub 组织发布（需组织管理员授权或提供空仓库 URL）。
+无（GitHub 组织仓库发布已完成）。

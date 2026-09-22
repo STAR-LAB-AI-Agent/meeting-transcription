@@ -8,6 +8,8 @@
 上提供关键词检索、时间定位、自动会议摘要，最后以 **Skill + Script/CLI** 的
 统一接口对外暴露，可被 nanobot 等 Agent Runtime 加载调用。
 
+**仓库地址**：https://github.com/STAR-LAB-AI-Agent/meeting-transcription
+
 ## 1. 项目简介
 
 - 音频转写：调用 FunASR（`paraformer-zh` + `fsmn-vad` + `ct-punc`）把
