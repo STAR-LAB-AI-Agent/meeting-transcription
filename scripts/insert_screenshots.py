@@ -15,7 +15,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DOCS = PROJECT_ROOT / "docs"
 IMG_DIR = DOCS / "screenshots" / "final_manual"
 SRC = DOCS / "网安学院本科实习手册_AI会议语音转写与检索_已填写.docx"
-DST = DOCS / "网安学院本科实习手册_AI会议语音转写与检索_已填写_含截图.docx"
+DST = DOCS / "网安学院本科实习手册_AI会议语音转写与检索_最终版.docx"
 
 # (anchor section prefix, image filename, caption)
 PLAN = [
