@@ -14,8 +14,9 @@
 | nanobot Skill 发现 | PASS（meeting-asr 被加载） |
 | nanobot Runtime 实际调用 | PASS（transcribe/search/locate/summarize 均真实调用 CLI） |
 | GUI | PASS（人工最终验收通过） |
-| GitHub CLI | 已安装（2.101.0），未登录 |
-| GitHub 发布 | 未执行（需登录 + 确认） |
+| GitHub CLI | 已安装（2.101.0）并登录（l18844179393-del） |
+| GitHub 发布 | 阻塞（无 STAR-LAB-AI-Agent 组织仓库创建权限） |
+| Demo 视频 | PASS（docs/demo/AI_Meeting_ASR_Demo.mp4，55.6s，1280×720 H.264） |
 
 ## 环境
 
@@ -72,4 +73,4 @@
 
 ## 待完成
 
-1. GitHub 登录并发布（gh 已安装，未登录）。
+1. GitHub 组织发布（需组织管理员授权或提供空仓库 URL）。
