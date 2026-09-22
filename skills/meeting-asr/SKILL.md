@@ -35,11 +35,12 @@ description: >-
 
 ## 运行环境（重要）
 
-项目依赖（FunASR、jieba 等）安装在项目根目录的虚拟环境 `.venv` 中，不要使用
-系统 `python`。请用项目 `.venv` 中的 Python 运行命令：
+必须在**项目根目录**运行（即含 `src/` 的目录）；在 `skills/meeting-asr/` 内运行会
+失败，因为该目录只有 SKILL.md。项目依赖（FunASR、jieba 等）安装在项目根目录的
+虚拟环境 `.venv` 中，不要使用系统 `python`：
 
-- Windows：`.venv\Scripts\python.exe`
-- Linux：`.venv/bin/python`
+- Windows：`.venv\Scripts\python.exe src/meeting_tool.py <subcommand>`
+- Linux：`.venv/bin/python src/meeting_tool.py <subcommand>`
 
 ## Script/CLI 调用命令
 
@@ -55,12 +56,28 @@ python src/meeting_tool.py locate --transcript data/output/synthetic_meeting_dem
 
 # 生成摘要
 python src/meeting_tool.py summarize --transcript data/output/synthetic_meeting_demo.json
+
+# 用外部 LLM 生成摘要（需环境配置）
+python src/meeting_tool.py summarize --transcript data/output/synthetic_meeting_demo.json --llm
+
+# 搜索并附带统计
+python src/meeting_tool.py search --transcript data/output/synthetic_meeting_demo.json --keyword "预算" --stats
 ```
 
 （上述 `python` 均指项目 `.venv` 中的 Python，例如 Windows 下为
 `.venv\Scripts\python.exe`。）
 
-成功时退出码为 0 并输出 JSON；失败时退出码非 0，输出含 `error` 字段的 JSON。
+成功时退出码为 0 并输出 JSON；失败时退出码非 0，输出 `{"ok": false, "error": ..., "error_type": ...}`。
+
+## 行为细节
+
+- `transcribe` 默认拒绝覆盖已存在的输出 JSON，必须显式传 `--overwrite` 才会重写。
+- 转写总是向 `data/output/` 同时写出 `<stem>.json` 与 `<stem>.txt`，并向
+  `logs/meeting_asr.jsonl` 追加一行状态记录。
+- `summarize` 默认走本地抽取式回退（`method: "extractive_fallback"`），仅在传 `--llm`
+  且配置好环境时才调用外部 LLM；其 `action_items` 是抽取出来的句子，不是权威待办，
+  可能把进展陈述误判为待办。请原样报告并注明该局限，不要改写。
+- ASR 输出含误识别（例如同音词），必须原样保留并如实说明，不得静默改写。
 
 ## 输出格式
 

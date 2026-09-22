@@ -13,7 +13,7 @@
 | nanobot 安装 | PASS（v0.3.5，独立 venv） |
 | nanobot Skill 发现 | PASS（meeting-asr 被加载） |
 | nanobot Runtime 实际调用 | PASS（transcribe/search/locate/summarize 均真实调用 CLI） |
-| GUI | 启动通过，需人工点击演示 |
+| GUI | PASS（人工最终验收通过） |
 | GitHub CLI | 已安装（2.101.0），未登录 |
 | GitHub 发布 | 未执行（需登录 + 确认） |
 
@@ -72,5 +72,4 @@
 
 ## 待完成
 
-1. GUI 人工点击演示（上传 synthetic_meeting_demo.wav → 转写 → 搜索 → 定位 → 摘要）。
-2. GitHub 登录并发布（gh 已安装，未登录）。
+1. GitHub 登录并发布（gh 已安装，未登录）。

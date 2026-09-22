@@ -195,8 +195,10 @@ scripts\run_tests.bat
 - 真实 FunASR 推理链路已用 3 段公开语音验证通过，并额外生成了 67.5 秒
   “合成模拟会议 Demo”（TTS 合成，非真实会议）用于完整演示；详见
   `PROJECT_STATUS.md` 与 `docs/real_validation/`。
-- nanobot 已独立安装并完成 Skill 发现（`skills/meeting-asr/SKILL.md`），
-  但 Runtime 实际调用需先配置 provider/model（见 `docs/nanobot接入.md`）。
+- nanobot 已独立安装并完成 Skill 发现与 Runtime 真实验证：
+  transcribe/search/locate/summarize 四项均通过 `meeting-asr` Skill 真实调用
+  `src/meeting_tool.py`（见 `docs/nanobot接入.md` 与
+  `docs/real_validation/nanobot_runtime_*.txt`）。
 - 未安装 ffmpeg 时，非 wav 格式无法转写（wav 不受影响）。
 - 规则式摘要为抽取式，语义理解有限；配置外部 LLM 可进一步提升。
 
